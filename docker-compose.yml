@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+
+  # ------------------------------------------------------------------------------
+
+  teleproxy:
+    image:
+    image: ${IMAGE}:${IMAGE_VER}
+    restart: always
+    command:
+      --group ${GROUP} --token ${TOKEN} --db_driver postgres --db_connect ${DSN} --template /data/messages.tmpl --command /data/commands.sh --log_level debug
+    networks:
+      - web
+    labels:
+      - "traefik.enable=false"
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./data:/data
+
+networks:
+  web:
+    external:
+      name: ${DCAPE_NET}

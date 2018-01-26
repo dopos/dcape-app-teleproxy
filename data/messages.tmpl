@@ -1,0 +1,43 @@
+{{ if eq .Tag "welcome" }}
+  {{ if ne .User.FirstName ""}}{{ .User.FirstName }}{{ else }}{{ .User.Username }}{{ end }}, добро пожаловать в службу поддержки!
+Чем мы можем помочь?
+{{ else if eq .Tag "info" }}
+{{ if eq .Text ".new"}}Новый клиент {{ end }}
+  {{ .User.Code }} = 
+  FirstName: {{ .User.FirstName }}
+  LastName: {{ .User.LastName }}
+  Username: @{{ .User.Username }}
+{{ else if eq .Tag "hello"}}
+Привет, {{ .User.FirstName }}!
+{{ else if eq .Tag "helpOp" }}
+Формат ответа:  /номер Текст ответа
+Запрос деталей: /номер[ =]
+Блокировать:    /номер -
+Разблокировать: /номер +
+{{ else if eq .Tag "errNoDigit" }}
+Неправильный формат: {{ .Text }}, должно быть число
+{{ else if eq .Tag "errNoUser" }}
+Неизвестный адресат: {{ .Text }}
+{{ else if eq .Tag "message"}}
+{{ .User.Code }}: {{ .Text}}
+{{ else if eq .Tag "userLocked"}}
+Извините, прием сообщений от вас заблокирован
+{{ else if eq .Tag "errState1"}}
+Ошибка блокировки пользователя {{ .User.Code }}: {{ .Text }}
+{{ else if eq .Tag "userState1"}}
+Пользователь {{ .User.Code }} заблокирован
+{{ else if eq .Tag "errState0"}}
+Ошибка разблокировки пользователя {{ .User.Code }}: {{ .Text }}
+{{ else if eq .Tag "userState0"}}
+Пользователь {{ .User.Code }} разблокирован
+{{ else if eq .Tag "userStateKeep"}}
+Статус пользователя {{ .User.Code }} совпадает с запрошенным
+{{ else if eq .Tag "cmdRequest" }}
+Выполняю команду: {{ .Text }}
+{{ else if eq .Tag "errNoCmdFile" }}
+Поддержка внешних команд не активирована
+{{ else if eq .Tag "errNoCmd" }}
+Неизвестная команда: {{ .Text }}
+{{ else }}
+Неизвестный тег сообщения: {{ .Tag }}
+{{ end }}
